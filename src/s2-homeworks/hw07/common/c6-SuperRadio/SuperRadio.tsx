@@ -5,6 +5,7 @@ import React, {
     HTMLAttributes,
 } from 'react'
 import s from './SuperRadio.module.css'
+import {light} from "@mui/material/styles/createPalette";
 
 type DefaultRadioPropsType = DetailedHTMLProps<
     InputHTMLAttributes<HTMLInputElement>,
@@ -45,15 +46,19 @@ const SuperRadio: React.FC<SuperRadioPropsType> = ({
 
     const mappedOptions: any[] = options
         ? options.map((o) => {
+
+            //Это я сделал для себя
             const isChecked = o.id === value
             console.log(`Radio N${o.id} ID: ${o.id} === Value: ${value} | ${isChecked}`)
+            //
+
             return <label key={name + '-' + o.id} className={s.label}>
                 <input
                     id={id + '-input-' + o.id}
                     className={finalRadioClassName}
                     type={'radio'}
                     name={name}
-                    value={o.value}
+                    value={o.id}
                     checked={o.id === value}
                     // name, checked, value делают студенты
 
