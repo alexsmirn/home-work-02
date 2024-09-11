@@ -9,30 +9,81 @@ function Clock() {
     const [date, setDate] = useState<Date>(new Date(restoreState('hw9-date', Date.now())))
     const [show, setShow] = useState<boolean>(false)
 
+    const months: {[key: number]: string} = {
+        0: 'January',
+        1: 'February',
+        2: 'March',
+        3: 'April',
+        4: 'May',
+        5: 'June',
+        6: 'July',
+        7: 'August',
+        8: 'September',
+        9: 'October',
+        10: 'November',
+        11: 'December'
+    };
+
+    const daysOfWeek: {[key: number]: string} = {
+        0: 'Sunday',
+        1: 'Monday',
+        2: 'Tuesday',
+        3: 'Wednesday',
+        4: 'Thursday',
+        5: 'Friday',
+        6: 'Saturday'
+    };
+
+    // const [isRunning, setIsRunning] = useState<boolean>(false)
+
+    // useEffect(() => {
+    //     if(isRunning) {
+    //         let intervalId = setInterval(() => {
+    //             console.log(`Interval N${intervalId} tic`)
+    //             setDate(new Date())
+    //         }, 1000)
+    //         setTimerId(intervalId as unknown as number)
+    //     }
+    //
+    //     return () => clearInterval(timerId)
+    // }, [isRunning]);
+
     const start = () => {
         // пишут студенты // запустить часы (должно отображаться реальное время, а не +1)
         // сохранить ид таймера (https://learn.javascript.ru/settimeout-setinterval#setinterval)
+        let intervalId
 
+        intervalId = setInterval(() => {
+            setDate(new Date())
+            console.log('Interval Tic')
+        }, 1000)
+
+        setTimerId(intervalId as unknown as number)
     }
 
     const stop = () => {
         // пишут студенты // поставить часы на паузу, обнулить ид таймера (timerId <- undefined)
-
+        clearInterval(timerId)
+        setTimerId(undefined)
     }
 
     const onMouseEnter = () => { // пишут студенты // показать дату если наведена мышка
-
+        setShow(true)
     }
     const onMouseLeave = () => { // пишут студенты // спрятать дату если мышка не наведена
-
+        setShow(false)
     }
 
-    const stringTime = 'date->time' || <br/> // часы24:минуты:секунды (01:02:03)/(23:02:03)/(24:00:00)/(00:00:01) // пишут студенты
-    const stringDate = 'date->date' || <br/> // день.месяц.год (01.02.2022) // пишут студенты, варианты 01.02.0123/01.02.-123/01.02.12345 не рассматриваем
+    const twoDigit = (currentTime: number) => {
+        return (currentTime < 10 ? '0' : '') + currentTime
+    }
+
+    const stringTime = `${twoDigit(date.getHours())}:${twoDigit(date.getMinutes())}:${twoDigit(date.getSeconds())}`
+    const stringDate = `${twoDigit(date.getDate())}.${twoDigit(date.getMonth() + 1)}.${twoDigit(date.getFullYear())}` // день.месяц.год (01.02.2022) // пишут студенты, варианты 01.02.0123/01.02.-123/01.02.12345 не рассматриваем
 
     // день недели на английском, месяц на английском (https://learn.javascript.ru/intl#intl-datetimeformat)
-    const stringDay = 'date->day' || <br/> // пишут студенты
-    const stringMonth = 'date->month' || <br/> // пишут студенты
+    const stringDay = daysOfWeek[date.getDay()] // пишут студенты
+    const stringMonth = months[date.getMonth()] // пишут студенты
 
     return (
         <div className={s.clock}>
@@ -66,19 +117,21 @@ function Clock() {
             <div className={s.buttonsContainer}>
                 <SuperButton
                     id={'hw9-button-start'}
-                    disabled={true} // пишут студенты // задизэйблить если таймер запущен
+                    disabled={timerId !== undefined} // пишут студенты // задизэйблить если таймер запущен
                     onClick={start}
                 >
                     start
                 </SuperButton>
                 <SuperButton
                     id={'hw9-button-stop'}
-                    disabled={true} // пишут студенты // задизэйблить если таймер не запущен
+                    disabled={timerId === undefined} // пишут студенты // задизэйблить если таймер не запущен
                     onClick={stop}
                 >
                     stop
                 </SuperButton>
             </div>
+
+            <div>{date.getDate()}</div>
         </div>
     )
 }
