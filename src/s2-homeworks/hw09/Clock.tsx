@@ -130,8 +130,6 @@ function Clock() {
                     stop
                 </SuperButton>
             </div>
-
-            <div>{date.getDate()}</div>
         </div>
     )
 }

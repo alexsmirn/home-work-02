@@ -1,14 +1,31 @@
 .buttonsContainer {
+    display: flex;
+    gap: 21px;
+}
+
+.buttonsContainer * {
+    height: 30px;
+    max-width: 84px;
+}
+
+.buttonsContainer *:disabled {
+    background-color: #0066CC;
+    opacity: 50%;
 }
 
 .clock {
+    font-size: 16px;
 }
 
 .watch {
+    margin-bottom: 8px;
+    font-size: 20px;
 }
 
 .watch strong {
 }
 
 .more {
+    margin-bottom: 27px;
+    opacity: 50%
 }
